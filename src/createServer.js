@@ -99,11 +99,14 @@ function createServer() {
 
   app.patch('/expenses/:id', (req, res) => {
     const { spentAt, title, amount, category, note } = req.body;
-
     const id = Number(req.params.id);
 
     if (!id || isNaN(id)) {
-      return res.status(404).send('Not found');
+      return res.sendStatus(404);
+    }
+
+    if (!spentAt && !title && !amount && !category && !note) {
+      return res.status(404).send('Bad request');
     }
 
     const expense = expensesService.updateExpense(
@@ -119,11 +122,7 @@ function createServer() {
       return res.status(404).send('Not found');
     }
 
-    if (!spentAt && !title && !amount && !category && !note) {
-      return res.status(400).send('Bad request');
-    }
-
-    res.json(expense);
+    return res.json(expense);
   });
 
   app.get('/users', (req, res) => {
