@@ -19,7 +19,7 @@ const usersService = {
     const user = users.find((u) => u.id === id);
 
     if (!user) {
-      return false;
+      return null;
     }
 
     return user;

@@ -101,6 +101,11 @@ function createServer() {
     const { spentAt, title, amount, category, note } = req.body;
 
     const id = Number(req.params.id);
+
+    if (!id || isNaN(id)) {
+      return res.status(404).send('Not found');
+    }
+
     const expense = expensesService.updateExpense(
       id,
       spentAt,
@@ -111,10 +116,6 @@ function createServer() {
     );
 
     if (!expense) {
-      return res.status(404).send('Not found');
-    }
-
-    if (!id || isNaN(id)) {
       return res.status(404).send('Not found');
     }
 
